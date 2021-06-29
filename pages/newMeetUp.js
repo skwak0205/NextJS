@@ -1,10 +1,25 @@
-// out-domain.com/new-meetup
+// out-domain.com/newMeetUp
 
+import { useRouter } from 'next/router';
 import NewMeetupForm from '../components/meetups/NewMeetupForm';
 
 function NewMeetupPage() {
-  const addMeetupHandler = (newMeetup) => {
-    console.log(newMeetup);
+  const router = useRouter();
+
+  const addMeetupHandler = async (newMeetup) => {
+    const response = await fetch('/api/new-meetup', {
+      method: 'POST',
+      body: JSON.stringify(newMeetup),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    router.push('/');
   };
 
   return <NewMeetupForm onAddMeetup={addMeetupHandler} />;
